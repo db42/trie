@@ -21,24 +21,8 @@ fn emptyCharMap() {
 }
 
 fn main() {
-    println!("Hello world");
-    let words: [&str; 3] = ["apple", "banana", "mango"];
-
-    //create prefix tree
-    // let mut trie = Node { charMap: Vec::new()};    
-    // let target_size = 26;
-    // while trie.charMap.len() < target_size {
-    //     trie.charMap.push(None);
-    // }
-
-    // trie.charMap.resize(26, None);
-
-    // let child_node = Rc::new(RefCell::new(Node {charMap: Vec::new()}));
-    // trie.charMap[0] = Some(child_node);
-
-    // let word = words[0];
-    // let substring = &word[1..];
-    // println!("{}", substring);
+    // println!("Hello world");
+    let words: [&str; 3] = ["apple", "april", "mango"];
 
     // create trie
     let mut trie = Node::new();
@@ -48,16 +32,20 @@ fn main() {
     }
 
     //find a word in trie
-    let needle = "app";
     // findWord(&trie, needle);
     // findWord(&trie, "apl");
-    prefixMatch(&trie, "ap");
+    let matches = prefixMatch(&trie, "ap");
+    println!("{:?}", matches);
+
+    println!("{:?}",prefixMatch(&trie, "apple"));
+    println!("{:?}",prefixMatch(&trie, "aps"));
+    println!("{:?}",prefixMatch(&trie, "man"));
 }
 
 fn addWord(node: &mut Node, word: &str) {
     if let Some(character) = word.chars().nth(0) {
         let index = (character as u32 - 97) as usize;
-        println!("character {} index {}", character, index);
+        // println!("character {} index {}", character, index);
 
         if let Some(child_node) = &mut node.charMap[index] {
             let substring = &word[1..];
@@ -93,8 +81,7 @@ fn findWord(trie: &Node, word: &str) -> bool {
     return true;
 }
 
-fn prefixMatch(trie: &Node, prefix: &str) -> Vec<&str> {
-    let mut matches = Vec::new();
+fn prefixMatch(trie: &Node, prefix: &str) -> Vec<String> {
     let mut node = trie;
     for character in prefix.chars() {
         let index = (character as u32 - 97) as usize;
@@ -104,40 +91,44 @@ fn prefixMatch(trie: &Node, prefix: &str) -> Vec<&str> {
             continue;
         } else {
             println!("prefix not found {}", prefix);
-            return matches;
+            // return matches;
+            return Vec::new();
         }
     }
 
-    //do a dfs traversal starting from node
-    let mut st = "";
-    dfs(&node, &st, &matches);
+    // println!("prefix found {}", prefix);
 
-    println!("prefix found {}", prefix);
+    //do a dfs traversal starting from node and print all prefixMatches
+    let mut st = "";
+    let matches = dfs(&node, &prefix);
+
     return matches;
 }
 
-fn dfs(trie: &Node, pre: &str, arr: &Vec<&str>) {
-    // let mut matches = Vec::new();
-    let is_last_node = false;
+fn dfs(trie: &Node, pre: &str) -> Vec<String> {
+    let mut matches = Vec::new();
+    let mut is_last_node = true;
+
     for index in 0..26 {
         if let Some(child_node) = &trie.charMap[index] {
-            is_last_node = true;
+            is_last_node = false;
 
             let ascii_code = (index + 97) as u32;
-            let character = char::from_u32(ascii_code);
+            let character = char::from_u32(ascii_code).unwrap();
 
-            let new_string = pre + &character.to_string(); // Convert char to string first
-
-            dfs(trie, &new_string, arr);
-
-
+            // println!("more character pre {} char {}",pre, character );
+            let new_string = format!("{}{}", pre, character);
+            let temp_matches = dfs(child_node, &new_string);
+            matches.extend_from_slice(&temp_matches);
         } else {
 
         }
-        // println!("Count: {}", i);
     }
 
     if is_last_node {
-        arr.push(pre);
+        // println!("completions {}", pre);
+        matches.push(pre.to_string());
     }
+
+    return matches;
 }
