@@ -16,31 +16,43 @@ impl Node {
     }
 }
 
-fn emptyCharMap() {
-
+pub struct Indexer {
+    trie: Node
 }
 
-fn main() {
-    // println!("Hello world");
-    let words: [&str; 3] = ["apple", "april", "mango"];
+impl Indexer {
+    pub fn new() -> Self {
+        // println!("Hello world");
+        let words: [&str; 3] = ["apple", "april", "mango"];
 
-    // create trie
-    let mut trie = Node::new();
-    for word in words.iter() {
-        // add word to prefix trie
-        addWord(&mut trie, word);
+        // create trie
+        let mut trie = Node::new();
+        for word in words.iter() {
+            // add word to prefix trie
+            addWord(&mut trie, word);
+        }
+
+        let indexer = Indexer { trie: trie };
+        indexer
     }
 
-    //find a word in trie
-    // findWord(&trie, needle);
-    // findWord(&trie, "apl");
-    let matches = prefixMatch(&trie, "ap");
-    println!("{:?}", matches);
-
-    println!("{:?}",prefixMatch(&trie, "apple"));
-    println!("{:?}",prefixMatch(&trie, "aps"));
-    println!("{:?}",prefixMatch(&trie, "man"));
+    pub fn prefixMatch(&self, word: &str) -> Vec<String>  {
+        return prefixMatch(&self.trie, word);
+    }
 }
+
+// fn main() {
+
+//     //find a word in trie
+//     // findWord(&trie, needle);
+//     // findWord(&trie, "apl");
+//     let matches = prefixMatch(&trie, "ap");
+//     println!("{:?}", matches);
+
+//     println!("{:?}",prefixMatch(&trie, "apple"));
+//     println!("{:?}",prefixMatch(&trie, "aps"));
+//     println!("{:?}",prefixMatch(&trie, "man"));
+// }
 
 fn addWord(node: &mut Node, word: &str) {
     if let Some(character) = word.chars().nth(0) {
