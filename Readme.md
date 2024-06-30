@@ -26,7 +26,24 @@ Example response
 
 
 ## Todo
-1. run this for a large dataset of english words
-2. run as a separate service and call using grpc
-3. distributed trie
-4. Return different prefix and exact matches
+0. read dataset from file - Done
+1. run this for a large dataset of english words - 370K - Done
+2. run as a separate service and call using grpc - DONE
+3. Return different prefix and exact matches
+4. distributed trie
+5. [Long shot] ubr kind of ranking
+
+## details
+
+**Memory**
+calculation
+10 bytes * 370K = 3.7MB
+
+26 items in array for each character
+
+26*4 MB = 100 MB
+
+Actual memory usage = 700 MB
+
+## Resources
+1. https://github.com/kiyoka/distributed-trie

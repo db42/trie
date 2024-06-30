@@ -1,5 +1,10 @@
 use std::cell::RefCell;
 use std::rc::Rc;
+use std::{
+    fs::File,
+    io::{prelude::*, BufReader},
+    path::Path,
+};
 
 struct Node {
     charMap: Vec<Option<Node>>,
@@ -20,10 +25,24 @@ pub struct Indexer {
     trie: Node
 }
 
+fn lines_from_file(filename: impl AsRef<Path>) -> Vec<String> {
+    let file = File::open(filename).expect("no such file");
+    let buf = BufReader::new(file);
+    buf.lines()
+        .map(|l| l.expect("Could not parse line"))
+        .collect()
+}
+
 impl Indexer {
     pub fn new() -> Self {
         // println!("Hello world");
-        let words: [&str; 3] = ["apple", "april", "mango"];
+
+        // let words = lines_from_file("/Users/dushyant.bansal/work/rprojects/helloworld-tonic/words.txt"); //sample
+        let words = lines_from_file("/Users/dushyant.bansal/work/rprojects/helloworld-tonic/words_alpha.txt"); //all words
+        // for line in &words {
+        //     println!("{:?}", line);
+        // }
+        // let words: [&str; 3] = ["apple", "april", "mango"];
 
         // create trie
         let mut trie = Node::new();
