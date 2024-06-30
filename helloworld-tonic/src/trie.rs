@@ -8,11 +8,15 @@ use std::{
 
 struct Node {
     charMap: Vec<Option<Node>>,
+    endOfWord: bool,
 }
 
 impl Node {
     fn new() -> Self {
-    let mut node = Node { charMap: Vec::new()};    
+    let mut node = Node { 
+        charMap: Vec::new(),
+        endOfWord: false
+    };
     while node.charMap.len() < 26 {
         node.charMap.push(None);
     }
@@ -91,6 +95,7 @@ fn addWord(node: &mut Node, word: &str) {
             addWord(node_rc, &substring)
         }
     } else {
+        node.endOfWord = true;
         return
     }
 }
@@ -127,11 +132,13 @@ fn prefixMatch(trie: &Node, prefix: &str) -> Vec<String> {
         }
     }
 
-    // println!("prefix found {}", prefix);
 
     //do a dfs traversal starting from node and print all prefixMatches
     let mut st = "";
-    let matches = dfs(&node, &prefix);
+    let mut matches = dfs(&node, &prefix);
+    if (node.endOfWord == true) {
+        matches.insert(0, prefix.to_string());
+    }
 
     return matches;
 }

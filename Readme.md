@@ -29,7 +29,7 @@ Example response
 0. read dataset from file - Done
 1. run this for a large dataset of english words - 370K - Done
 2. run as a separate service and call using grpc - DONE
-3. Return different prefix and exact matches
+3. Return different prefix and exact matches // test with 'whiplash' - DONE
 4. distributed trie
 5. [Long shot] ubr kind of ranking
 
