@@ -7,13 +7,13 @@ use std::{
 };
 use std::dbg;
 
-struct Node {
+pub struct Node {
     charMap: Vec<Option<Node>>,
     endOfWord: bool,
 }
 
 impl Node {
-    fn new() -> Self {
+    pub fn new() -> Self {
     let mut node = Node { 
         charMap: Vec::new(),
         endOfWord: false
@@ -26,44 +26,7 @@ impl Node {
     }
 }
 
-pub struct Indexer {
-    trie: Node
-}
 
-fn lines_from_file(filename: impl AsRef<Path>) -> Vec<String> {
-    let file = File::open(filename).expect("no such file");
-    let buf = BufReader::new(file);
-    buf.lines()
-        .map(|l| l.expect("Could not parse line"))
-        .collect()
-}
-
-impl Indexer {
-    pub fn new() -> Self {
-        // println!("Hello world");
-
-        // let words = lines_from_file("/Users/dushyant.bansal/work/rprojects/helloworld-tonic/words.txt"); //sample
-        let words = lines_from_file("/Users/dushyant.bansal/work/rprojects/helloworld-tonic/words_alpha.txt"); //all words
-        // for line in &words {
-        //     println!("{:?}", line);
-        // }
-        // let words: [&str; 3] = ["apple", "april", "mango"];
-
-        // create trie
-        let mut trie = Node::new();
-        for word in words.iter() {
-            // add word to prefix trie
-            addWord(&mut trie, word);
-        }
-
-        let indexer = Indexer { trie: trie };
-        indexer
-    }
-
-    pub fn prefixMatch(&self, word: &str) -> Vec<String>  {
-        return prefixMatch(&self.trie, word);
-    }
-}
 
 // fn main() {
 
@@ -78,7 +41,7 @@ impl Indexer {
 //     println!("{:?}",prefixMatch(&trie, "man"));
 // }
 
-fn addWord(node: &mut Node, word: &str) {
+pub fn addWord(node: &mut Node, word: &str) {
     if let Some(character) = word.chars().nth(0) {
         let index = (character as u32 - 97) as usize;
         // println!("character {} index {}", character, index);
@@ -118,7 +81,7 @@ fn findWord(trie: &Node, word: &str) -> bool {
     return true;
 }
 
-fn prefixMatch(trie: &Node, prefix: &str) -> Vec<String> {
+pub fn prefixMatch(trie: &Node, prefix: &str) -> Vec<String> {
     let mut node = trie;
     for character in prefix.chars() {
         let index = (character as u32 - 97) as usize;

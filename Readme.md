@@ -51,3 +51,4 @@ Actual memory usage = 700 MB
 
 ## Resources
 1. https://github.com/kiyoka/distributed-trie
+2. https://medium.com/@prefixyteam/how-we-built-prefixy-a-scalable-prefix-search-service-for-powering-autocomplete-c20f98e2eff1 

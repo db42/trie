@@ -3,9 +3,9 @@ use tonic::{transport::Server, Request, Response, Status};
 use hello_world::greeter_server::{Greeter, GreeterServer};
 use hello_world::{HelloReply, HelloRequest};
 
-mod trie;
+mod indexer;
 
-use trie::Indexer;
+use indexer::Indexer;
 
 pub mod hello_world {
     tonic::include_proto!("helloworld");
@@ -17,7 +17,8 @@ pub struct MyGreeter {
 
 impl MyGreeter {
     fn new() -> Self {
-        let indexer = Indexer::new();
+        let mut indexer = Indexer::new();
+        indexer.indexFile("thoughtspot", "path");
 
         let greeter = MyGreeter {
             indexer: indexer
