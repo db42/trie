@@ -5,6 +5,7 @@ use std::{
     io::{prelude::*, BufReader},
     path::Path,
 };
+use std::dbg;
 
 struct Node {
     charMap: Vec<Option<Node>>,
@@ -137,6 +138,7 @@ fn prefixMatch(trie: &Node, prefix: &str) -> Vec<String> {
     let mut st = "";
     let mut matches = dfs(&node, &prefix);
     if (node.endOfWord == true) {
+        dbg!("match found");
         matches.insert(0, prefix.to_string());
     }
 

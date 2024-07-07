@@ -31,7 +31,11 @@ Example response
 2. run as a separate service and call using grpc - DONE
 3. Return different prefix and exact matches // test with 'whiplash' - DONE
 4. distributed trie
-5. [Long shot] ubr kind of ranking
+5. UTs, ITs
+6. debugging using breakpoint
+7. deployment using K8S
+8. [Long shot] ubr kind of ranking
+9. How does ES compare to this?
 
 ## details
 
