@@ -13,9 +13,9 @@ use trie::Node;
 
 
 pub struct Indexer {
-    // tenantTrieMap: HashMap<String, Node>,
+    tenantTrieMap: HashMap<String, Node>,
     //keep tenant trie map
-    trie: Node
+    // trie: Node
 }
 
 fn lines_from_file(filename: impl AsRef<Path>) -> Vec<String> {
@@ -28,8 +28,9 @@ fn lines_from_file(filename: impl AsRef<Path>) -> Vec<String> {
 
 impl Indexer {
     pub fn new() -> Self {
-        let mut trie = Node::new();
-        let indexer = Indexer { trie: trie };
+        // let mut trie = Node::new();
+        // HashMap::new();
+        let indexer = Indexer { tenantTrieMap: HashMap::new() };
         indexer
     }
 
@@ -37,21 +38,35 @@ impl Indexer {
         // println!("Hello world");
 
         // let words = lines_from_file("/Users/dushyant.bansal/work/rprojects/helloworld-tonic/words.txt"); //sample
-        let words = lines_from_file("/Users/dushyant.bansal/work/rprojects/helloworld-tonic/words_alpha.txt"); //all words
+        let words = lines_from_file(filePath); //all words
         // for line in &words {
         //     println!("{:?}", line);
         // }
         // let words: [&str; 3] = ["apple", "april", "mango"];
 
         //fill trie
+        let mut trie = Node::new();
+
         for word in words.iter() {
             // add word to prefix trie
-            let mut trie_ref = &mut self.trie;
-            trie::addWord(trie_ref, word);
+            // let mut trie_ref = &mut trie;
+            trie::addWord(&mut trie, word);
         }
+
+        self.tenantTrieMap.insert(tenantID.to_string(), trie);
     }
 
-    pub fn prefixMatch(&self, word: &str) -> Vec<String>  {
-        return trie::prefixMatch(&self.trie, word);
+    pub fn prefixMatch(&self, tenantID: &str, word: &str) -> Vec<String>  {
+        //get trie for the tenant
+        // let tenantID = "tenant1".to_string();
+
+        if let Some(trie) = self.tenantTrieMap.get(tenantID) {
+            // Access the node data here
+            println!("Found node for key {}!", tenantID);
+            return trie::prefixMatch(&trie, word);
+        } else {
+            println!("No node found for key {}", tenantID);
+            return [].to_vec();
+        }
     }
 }

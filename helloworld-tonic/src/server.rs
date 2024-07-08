@@ -18,7 +18,14 @@ pub struct MyGreeter {
 impl MyGreeter {
     fn new() -> Self {
         let mut indexer = Indexer::new();
-        indexer.indexFile("thoughtspot", "path");
+        let tenant1 = "thoughtspot";
+        let path1 = "/Users/dushyant.bansal/work/rprojects/helloworld-tonic/words.txt";
+
+        let tenant2 = "powerbi";
+        let path2 = "/Users/dushyant.bansal/work/rprojects/helloworld-tonic/words_alpha.txt";
+        indexer.indexFile(&tenant1, &path1);
+
+        indexer.indexFile(&tenant2, &path2);
 
         let greeter = MyGreeter {
             indexer: indexer
@@ -38,7 +45,7 @@ impl Greeter for MyGreeter {
         println!("Got a request: {:?}", request);
         let word = request.into_inner().name;
         //search for this word in
-        let matches = self.indexer.prefixMatch(&word);
+        let matches = self.indexer.prefixMatch("thoughtspot", &word);
 
         let reply = HelloReply {
             message: format!("Hello {} matches: {:?}!", word, matches),
