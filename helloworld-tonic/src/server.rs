@@ -43,9 +43,11 @@ impl Greeter for MyGreeter {
         request: Request<HelloRequest>,
     ) -> Result<Response<HelloReply>, Status> {
         println!("Got a request: {:?}", request);
-        let word = request.into_inner().name;
+        let inner = request.into_inner();
+        let word = inner.name;
+        let tenant = inner.tenant;
         //search for this word in
-        let matches = self.indexer.prefixMatch("thoughtspot", &word);
+        let matches = self.indexer.prefixMatch(&tenant, &word);
 
         let reply = HelloReply {
             message: format!("Hello {} matches: {:?}!", word, matches),
