@@ -15,7 +15,7 @@ pub struct Node {
 impl Node {
     pub fn new() -> Self {
     let mut node = Node { 
-        charMap: Vec::new(),
+        charMap: Vec::with_capacity(26),
         endOfWord: false
     };
     while node.charMap.len() < 26 {
@@ -26,19 +26,29 @@ impl Node {
     }
 }
 
+//on-hold for now; too messy mutable reference rules
+//one approach is non mutable iteration to match the word and mutable
+//iteration to creates rest of the nodes
+// pub fn addWordIter(trie: &mut Node, word: &str) {
+//     let mut node = trie;
+//     for character in word.chars() {
+//         let index = (character as u32 - 97) as usize;
 
+//         // println!("character {} index {}", character, index);
+//         let charMap = &mut node.charMap;
 
-// fn main() {
+//         if let Some(child_node) = &mut charMap[index] {
+//             node = child_node;
+//             continue;
+//         }
 
-//     //find a word in trie
-//     // findWord(&trie, needle);
-//     // findWord(&trie, "apl");
-//     let matches = prefixMatch(&trie, "ap");
-//     println!("{:?}", matches);
-
-//     println!("{:?}",prefixMatch(&trie, "apple"));
-//     println!("{:?}",prefixMatch(&trie, "aps"));
-//     println!("{:?}",prefixMatch(&trie, "man"));
+//         let new_node = Node::new();
+//         charMap[index] = Some(new_node);
+        
+//         let node_rc = charMap[index].as_mut().unwrap();
+//         node = node_rc;
+//     }
+//     node.endOfWord = true;
 // }
 
 pub fn addWord(node: &mut Node, word: &str) {

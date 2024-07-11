@@ -50,6 +50,8 @@ impl Indexer {
         for word in words.iter() {
             // add word to prefix trie
             // let mut trie_ref = &mut trie;
+            // trie::addWord(&mut trie, word);
+            // trie::addWordIter(&mut trie, word);
             trie::addWord(&mut trie, word);
         }
 
