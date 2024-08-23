@@ -36,6 +36,7 @@ Example response
 7. deployment using K8S
 8. [Long shot] ubr kind of ranking
 9. How does ES compare to this?
+10. Persist in redis - OPTIONAL
 
 ## details
 

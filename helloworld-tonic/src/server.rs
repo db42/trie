@@ -18,11 +18,11 @@ pub struct MyGreeter {
 impl MyGreeter {
     fn new() -> Self {
         let mut indexer = Indexer::new();
-        // let tenant1 = "thoughtspot";
-        // let path1 = "/Users/dushyant.bansal/work/rprojects/helloworld-tonic/words.txt";
-        // indexer.indexFile(&tenant1, &path1);
+        let tenant1 = "thoughtspot";
+        let path1 = "/Users/dushyant.bansal/work/rprojects/helloworld-tonic/words.txt";
+        indexer.indexFile(&tenant1, &path1);
 
-        let tenant2 = "powerbi";
+        let tenant2 = "power";
         let path2 = "/Users/dushyant.bansal/work/rprojects/helloworld-tonic/words_alpha.txt";
         indexer.indexFile(&tenant2, &path2);
 
