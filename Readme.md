@@ -23,6 +23,43 @@ Example response
 }
 ```
 
+Connect to EC2
+```
+grpcurl -plaintext -import-path ./proto -proto helloworld.proto -d '{"name": "apr"}' 'ec2-54-85-5-194.compute-1.amazonaws.com:50051' helloworld.Greeter/SayHello
+```
+
+**EC2**
+
+SSH
+```
+ssh -i ../dushyant-ec2.pem helloworld-server-image-amd64.tar ec2-user@ec2-54-85-5-194.compute-1.amazonaws.com
+```
+
+### Docker
+
+Build and export image from local
+```
+docker buildx build --platform linux/amd64 -t helloworld-server-image-amd64 .
+docker save -o helloworld-server-image-amd64.tar helloworld-server-image-amd64
+scp -i ../dushyant-ec2.pem helloworld-server-image-amd64.tar ec2-user@ec2-54-85-5-194.compute-1.amazonaws.com:~
+helloworld-server-image-amd64.tar
+```
+
+Import and use image on ec2
+```
+docker load -i helloworld-server-image-amd64.tar
+docker run -p 50051:50051 helloworld-server-image-amd64
+```
+
+### Other linux commands
+Memory usage `free -m`
+
+Run a container image interactively to debug the reason for failure
+```
+docker run -it --rm helloworld-server-image-amd64 /bin/bash
+./target/release/helloworld-server
+```
+
 
 
 ## Todo
@@ -33,10 +70,11 @@ Example response
 4. distributed trie
 5. UTs, ITs
 6. debugging using breakpoint
-7. deployment using K8S
-8. [Long shot] ubr kind of ranking
-9. How does ES compare to this?
-10. Persist in redis - OPTIONAL
+7. deployment using docker on EC2 - DONE
+8. deployment using K8S
+9. [Long shot] ubr kind of ranking
+10. How does ES compare to this?
+11. Persist in redis - OPTIONAL
 
 ## details
 

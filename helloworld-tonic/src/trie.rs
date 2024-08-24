@@ -54,7 +54,7 @@ impl Node {
 pub fn addWord(node: &mut Node, word: &str) {
     if let Some(character) = word.chars().nth(0) {
         let index = (character as u32 - 97) as usize;
-        println!("character {} index {}", character, index);
+        // println!("character {} index {}", character, index);
 
         if let Some(child_node) = &mut node.charMap[index] {
             let substring = &word[1..];

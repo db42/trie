@@ -19,11 +19,11 @@ impl MyGreeter {
     fn new() -> Self {
         let mut indexer = Indexer::new();
         let tenant1 = "thoughtspot";
-        let path1 = "/Users/dushyant.bansal/work/rprojects/helloworld-tonic/words.txt";
+        let path1 = "./words.txt";
         indexer.indexFile(&tenant1, &path1);
 
         let tenant2 = "power";
-        let path2 = "/Users/dushyant.bansal/work/rprojects/helloworld-tonic/words_alpha.txt";
+        let path2 = "./words_alpha.txt";
         indexer.indexFile(&tenant2, &path2);
 
 
@@ -59,7 +59,7 @@ impl Greeter for MyGreeter {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr = "[::1]:50051".parse()?;
+    let addr = "0.0.0.0:50051".parse()?;
     // let greeter = MyGreeter::default();
     let greeter = MyGreeter::new();
 
