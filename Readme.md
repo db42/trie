@@ -9,11 +9,12 @@ rustc trie.rs && ./trie
 **server**
 ```
 cargo run --bin helloworld-server
+cargo run --bin helloworld-lb
 ```
 
 **client**
 ```
-grpcurl -plaintext -import-path ./proto -proto helloworld.proto -d '{"name": "apr"}' '[::1]:50051' helloworld.Greeter/SayHello
+grpcurl -plaintext -import-path ./proto -proto helloworld.proto -d '{"name": "apr", "tenant":"power"}' '127.0.0.1:50051' helloworld.Greeter/SayHello
 ```
 
 Example response
@@ -59,8 +60,6 @@ Run a container image interactively to debug the reason for failure
 docker run -it --rm helloworld-server-image-amd64 /bin/bash
 ./target/release/helloworld-server
 ```
-
-
 
 ## Todo
 0. read dataset from file - Done

@@ -6,6 +6,40 @@ use hello_world::{HelloReply, HelloRequest};
 mod indexer;
 
 use indexer::Indexer;
+// GRPC server implementation for prefix search service.
+// 
+// This module implements a GRPC server that provides prefix-based word search functionality
+// using the trie data structure. The server supports multiple tenants, with each tenant
+// having its own word dictionary and trie.
+// 
+// # Server Implementation
+// 
+// The server exposes a single GRPC endpoint `SayHello` that accepts:
+// - A prefix string to search for
+// - A tenant ID to determine which dictionary to search in
+// 
+// And returns:
+// - A list of words from the tenant's dictionary that match the given prefix
+// 
+// # Example Usage
+// 
+// ```bash
+// # Start the server
+// cargo run --bin helloworld-server
+// 
+// # Make a GRPC request
+// grpcurl -plaintext -import-path ./proto -proto helloworld.proto \
+//   -d '{"name": "apr", "tenant": "thoughtspot"}' \
+//   '[::1]:50051' helloworld.Greeter/SayHello
+// ```
+// 
+// # Implementation Details
+// 
+// - Uses Tonic for GRPC server implementation
+// - Maintains separate tries per tenant using the `Indexer` 
+// - Loads word dictionaries from files at startup
+// - Supports concurrent requests across tenants
+
 
 pub mod hello_world {
     tonic::include_proto!("helloworld");
@@ -59,7 +93,7 @@ impl Greeter for MyGreeter {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr = "0.0.0.0:50051".parse()?;
+    let addr = "[::]:50051".parse()?;
     // let greeter = MyGreeter::default();
     let greeter = MyGreeter::new();
 

@@ -7,6 +7,10 @@ edition = "2021"
 name = "helloworld-server"
 path = "src/server.rs"
 
+[[bin]] # load balancer
+name = "helloworld-lb"
+path = "src/lb.rs"
+
 [[bin]] # client
 name = "helloworld-client"
 path = "src/client.rs"

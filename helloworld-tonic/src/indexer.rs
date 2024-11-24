@@ -25,6 +25,23 @@ fn lines_from_file(filename: impl AsRef<Path>) -> Vec<String> {
         .map(|l| l.expect("Could not parse line"))
         .collect()
 }
+/// Indexer provides functionality to build and query prefix tries for multiple tenants.
+/// Each tenant has its own trie data structure to store and search words.
+/// 
+/// # Examples
+/// 
+/// ```
+/// let mut indexer = Indexer::new();
+/// 
+/// // Index words from a file for a specific tenant
+/// indexer.indexFile("tenant1", "path/to/wordlist.txt");
+/// 
+/// // Search for words with a given prefix
+/// let matches = indexer.prefixMatch("tenant1", "app"); // Returns words like "apple", "application" etc.
+/// ```
+/// 
+/// The indexer maintains a mapping of tenant IDs to their corresponding tries,
+/// allowing for isolated word storage and prefix matching per tenant.
 
 impl Indexer {
     pub fn new() -> Self {

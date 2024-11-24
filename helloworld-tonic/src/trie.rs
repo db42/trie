@@ -7,6 +7,37 @@ use std::{
 };
 use std::dbg;
 
+// A trie (prefix tree) implementation for efficient prefix-based word searches.
+// 
+// This module provides a trie data structure optimized for storing and retrieving words
+// based on their prefixes. The trie is implemented using a vector-based approach where
+// each node contains 26 possible child nodes (one for each lowercase letter).
+// 
+// # Examples
+// 
+// ```
+// use trie::Node;
+// 
+// let mut trie = Node::new();
+// trie::addWord(&mut trie, "apple");
+// trie::addWord(&mut trie, "app");
+// 
+// let matches = trie::prefixMatch(&trie, "app"); // Returns ["app", "apple"]
+// ```
+// 
+// # Implementation Details
+// 
+// - Each `Node` contains a fixed-size vector of 26 optional child nodes
+// - The vector index is calculated by mapping 'a' to 0, 'b' to 1, etc.
+// - A boolean flag `endOfWord` marks complete words in the trie
+// - The implementation assumes lowercase ASCII characters only
+// 
+// # Memory Considerations
+// 
+// The trie uses a vector-based implementation with pre-allocated space for all possible
+// child nodes. While this increases memory usage, it provides O(1) access time to child
+// nodes compared to using a hash map.
+
 pub struct Node {
     charMap: Vec<Option<Node>>,
     endOfWord: bool,
